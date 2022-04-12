@@ -3,15 +3,17 @@ package pedro.serejo.desafio.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Transaction {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private	Long id;
 	
 	private String senderBank;
 	private String senderBranch;
@@ -21,6 +23,7 @@ public class Transaction {
 	private String recipientAccount;
 	private BigDecimal ammount;
 	private LocalDateTime dateTime;
+	
 	public String getSenderBank() {
 		return senderBank;
 	}
@@ -74,6 +77,22 @@ public class Transaction {
 		return "Transaction [senderBank=" + senderBank + ", senderBranch=" + senderBranch + ", senderAccount="
 				+ senderAccount + ", recipientBank=" + recipientBank + ", recipientBranch=" + recipientBranch
 				+ ", recipientAccount=" + recipientAccount + ", ammount=" + ammount + ", dateTime=" + dateTime + "]";
+	}
+	public Transaction(String senderBank, String senderBranch, String senderAccount, String recipientBank,
+			String recipientBranch, String recipientAccount, BigDecimal ammount, LocalDateTime dateTime) {
+		
+		this.senderBank = senderBank;
+		this.senderBranch = senderBranch;
+		this.senderAccount = senderAccount;
+		this.recipientBank = recipientBank;
+		this.recipientBranch = recipientBranch;
+		this.recipientAccount = recipientAccount;
+		this.ammount = ammount;
+		this.dateTime = dateTime;
+	}
+	
+	public Transaction() {
+		
 	}
 	
 	

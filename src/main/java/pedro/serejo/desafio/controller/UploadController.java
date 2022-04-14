@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import pedro.serejo.desafio.exceptions.CsvException;
+import pedro.serejo.desafio.model.Import;
 import pedro.serejo.desafio.model.Transaction;
+import pedro.serejo.desafio.repositories.ImportRepository;
 import pedro.serejo.desafio.repositories.TransactionRepository;
 import pedro.serejo.desafio.validation.CsvValidator;
 
@@ -27,10 +29,13 @@ public class UploadController {
 	@Autowired
 	CsvValidator csvVal;
 	@Autowired
-	TransactionRepository repo;
+	TransactionRepository tRepository;
+	@Autowired
+	ImportRepository iRepository;
 
 	@GetMapping("form")
-	public String getUploadForm() {
+	public String getUploadForm(Model model) {
+		
 		return "UploadForm";
 	}
 
@@ -40,7 +45,9 @@ public class UploadController {
 		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 		String[] csvLines = br.lines().toArray(x -> new String[x]);
 		List<Transaction> validTransactions = csvVal.validate(csvLines);
-		validTransactions.forEach(repo::save);
+		validTransactions.forEach(tRepository::save);
+		
+		iRepository.save(new Import(validTransactions.get(0).getDateTime().toLocalDate()));
 
 		return new RedirectView("/upload/form");
 	}

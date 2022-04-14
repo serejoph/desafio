@@ -10,16 +10,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import pedro.serejo.desafio.dao.TransactionDao;
 import pedro.serejo.desafio.exceptions.TransactionsAlreadySavedException;
 import pedro.serejo.desafio.model.Transaction;
 import pedro.serejo.desafio.repositories.TransactionRepository;
+import pedro.serejo.desafio.repositories.TransactionRepositoryImpl;
 
 @Component
 public class CsvValidator {
 
 	@Autowired
-	TransactionDao dao;
+	TransactionRepositoryImpl dao;
 	
 	@Autowired
 	TransactionRepository rep;

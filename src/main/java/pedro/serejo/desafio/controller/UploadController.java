@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
-import pedro.serejo.desafio.exceptions.TransactionsAlreadySavedException;
+import pedro.serejo.desafio.exceptions.CsvException;
 import pedro.serejo.desafio.model.Transaction;
 import pedro.serejo.desafio.repositories.TransactionRepository;
 import pedro.serejo.desafio.validation.CsvValidator;
-
 
 @Controller
 @RequestMapping("upload")
@@ -29,7 +28,7 @@ public class UploadController {
 	CsvValidator csvVal;
 	@Autowired
 	TransactionRepository repo;
-	
+
 	@GetMapping("form")
 	public String getUploadForm() {
 		return "UploadForm";
@@ -38,32 +37,19 @@ public class UploadController {
 	@PostMapping("uploadFile")
 	public Object uploadCsvFile(Model model, MultipartFile file) throws IOException {
 
-		
 		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
-		String[] csvLines = br.lines().toArray(x-> new String[x]);
-		
-		
-		if (csvLines.length == 0)	{
-			model.addAttribute("error", "O arquivo enviado está vazio");
-			return "UploadForm";
-		}
-		try {
+		String[] csvLines = br.lines().toArray(x -> new String[x]);
 		List<Transaction> validTransactions = csvVal.validate(csvLines);
-		System.out.println("Transações válidas: \n\n\n");
-		validTransactions.forEach(System.out::println);
 		validTransactions.forEach(repo::save);
-		}catch (TransactionsAlreadySavedException e) {
-			model.addAttribute("error", "As transações do dia "+ e.getMessage() + " já foram registradas.");
-			return "UploadForm";
-		}
-		
-		
+
 		return new RedirectView("/upload/form");
 	}
 
-//	@ExceptionHandler
-//	public String csvValidationHandler() {
-//		return null;
-//	}
-	
+	@ExceptionHandler
+	public String csvValidationHandler(Model model, CsvException e) {
+		
+		model.addAttribute("error", e.getMessage());
+		return "UploadForm";
+	}
+
 }

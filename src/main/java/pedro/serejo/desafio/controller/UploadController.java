@@ -33,8 +33,11 @@ public class UploadController {
 	@Autowired
 	ImportRepository iRepository;
 
-	@GetMapping("form")
+	@RequestMapping("form")
 	public String getUploadForm(Model model) {
+		
+		List<Import> imports = iRepository.findAll();
+		model.addAttribute("imports", imports);
 		
 		return "UploadForm";
 	}
@@ -56,7 +59,7 @@ public class UploadController {
 	public String csvValidationHandler(Model model, CsvException e) {
 		
 		model.addAttribute("error", e.getMessage());
-		return "UploadForm";
+		return "forward:form";
 	}
 
 }

@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import pedro.serejo.desafio.model.User;
 import pedro.serejo.desafio.validation.EmailConstraint;
 
 public class UserFormDto {
@@ -27,6 +28,15 @@ public class UserFormDto {
 		this.email = email;
 	}
 	
+	public UserFormDto() {
+		
+	}
+	
+public UserFormDto(User user) {
+	this.name = user.getName();
+	this.email = user.getEmail();
+	
+	}
 	
 	
 	

@@ -19,23 +19,23 @@
 <div th:insert="~{fragments :: topo(${user})}"></div>
 	<div class="container">
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
-			<h1>Cadastrar Usuário</h1>
+			<h1>Atualizar Usuário</h1>
 		</div>
-		<form action="/user/new-user" method="post" th:object="${userFormDto}">
+		<form action="/user/update" method="post" th:object="${updatingUser}">
 			<div class="card border-0 rounded">
 
 				<label for="name">Nome</label><input th:field="*{name}" name="name"
 					type="text"><span th:errors="*{name}" class="text-danger"></span> <label for="email">Email</label><input
 					th:field="*{email}" name="email" type="email"
 					class="d-flex justify-content-center"> <span
-					th:errors="*{email}" class="text-danger"></span> <input
+					th:errors="*{email}" class="text-danger"></span><span class="text-danger" th:if="${emailError}" th:text="${emailError}"></span> <input
 					type="hidden" name="_csrf" th:value="${token}">
+					<input type="hidden" name="id" th:value="${id}">
 				
 
 
 			</div>
-			<button type="submit" class="btn btn-outline-primary mt-3">Cadastrar
-				Usuário</button> <a href="/user/list"> <button type="button" class="btn btn-outline-primary mt-3">Voltar</button></a>
+			<button type="submit" class="btn btn-outline-primary mt-3">Atualizar</button> <a href="/user/list"> <button type="button" class="btn btn-outline-primary mt-3">Voltar</button></a>
 
 
 		</form>

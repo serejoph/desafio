@@ -15,6 +15,7 @@
 <meta charset="UTF-8">
 </head>
 <body>
+<div th:insert="~{fragments :: topo(${user})}"></div>
 	<div class="container">
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Importar Transações</h1>
@@ -24,6 +25,7 @@
 
 				<input name="file" type="file" accept=".csv"
 					class="d-flex justify-content-center">
+					<input type="hidden" name="_csrf" th:value="${token}">
 
 			</div>
 			<div class="form-text text-muted">Selecionar o arquivo para

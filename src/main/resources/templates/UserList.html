@@ -15,17 +15,18 @@
 <meta charset="UTF-8">
 </head>
 <body>
+	<div th:insert="~{fragments :: topo(${user})}"></div>
 	<div class="container">
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Usuários Cadastrados</h1>
 		</div>
 		<a href="/user/new-user"><button class="btn btn-primary btn-sm">Novo
-				usuário</button></a>
+				usuário</button></a> 
+				
 		<div class="row mt-3">
 			<span class="col-3 fw-bold">Nome</span> <span class="col-3 fw-bold">Email</span>
 		</div>
-		<form action="/user/delete" method="post" th:each=" u : ${users}"
-			>
+		<form action="/user/delete" method="post" th:each=" u : ${users}">
 
 
 			<div th:if="${u.email}!='admin@email.com.br'" class="row mt-2">
@@ -36,10 +37,10 @@
 					type="hidden" name="email" th:value="${u.email}">
 
 				<div class="col-1">
-					<button type="button" class="btn btn-outline-primary btn-sm">Atualizar</button>
+					<a th:href="'update/'+ ${u.id}"><button type="button" class="btn btn-outline-primary btn-sm">Atualizar</button></a>
 				</div>
 				<div th:if="${u.email}!='admin@email.com.br'" class="col-1">
-					<button type="submit" class="btn btn-outline-danger btn-sm">Deletar</button>
+					<button   type="submit" class="btn btn-outline-danger btn-sm">Deletar</button>
 				</div>
 			</div>
 

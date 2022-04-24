@@ -1,7 +1,6 @@
 package pedro.serejo.desafio.model;
 
 import java.util.Collection;
-import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,10 +31,7 @@ public class User implements UserDetails{
 	public User(UserFormDto userForm) {
 		this.name = userForm.getName();
 		this.email = userForm.getEmail();
-		String rawPassword = String.valueOf(new Random().nextInt(100_000, 999_999));
-		System.out.println(rawPassword);
-		System.out.println("Teste");
-		this.password = new BCryptPasswordEncoder().encode(rawPassword);
+		
 	}
 	
 
@@ -57,8 +53,8 @@ public class User implements UserDetails{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(String rawPassword) {
+		this.password = new BCryptPasswordEncoder().encode(rawPassword);
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

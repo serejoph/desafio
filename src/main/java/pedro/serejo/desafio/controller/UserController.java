@@ -1,6 +1,7 @@
 package pedro.serejo.desafio.controller;
 
 import java.util.Optional;
+import java.util.Random;
 
 import javax.validation.Valid;
 
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import net.bytebuddy.implementation.bind.MethodDelegationBinder.BindingResolver;
 import pedro.serejo.desafio.controller.dto.UserFormDto;
 import pedro.serejo.desafio.model.User;
 import pedro.serejo.desafio.repositories.UserRepository;
+import pedro.serejo.desafio.service.MailService;
 
 @Controller
 @RequestMapping("user")
@@ -24,6 +25,8 @@ public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	MailService mailService;
 
 	@GetMapping("new-user")
 	public String userForm(CsrfToken token, Model model) {
@@ -43,13 +46,18 @@ public class UserController {
 			
 		}
 		User user = new User(userForm);
+		Random r = new Random();
+		String rawPassword = String.valueOf(r.nextInt(100_000, 999_999));
+		user.setPassword(rawPassword);
 		userRepository.save(user);
 		
+		new Thread(()->mailService.sendPassword(user, rawPassword)).start();
+				
 		return "redirect:/user/list";
 		
 	}
 
-	@GetMapping("list")
+	@GetMapping(value= {"list"})
 	public String listUsers(Model model, CsrfToken token) {
 		model.addAttribute("token", token.getToken());
 		model.addAttribute("users", userRepository.findAll());

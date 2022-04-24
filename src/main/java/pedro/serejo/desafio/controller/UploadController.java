@@ -62,8 +62,5 @@ public class UploadController {
 		return "forward:form";
 	}
 	
-	public void test() {
-		SecurityContextHolder.getContext().getAuthentication();
-	}
 
 }

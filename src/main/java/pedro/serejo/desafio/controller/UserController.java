@@ -1,6 +1,5 @@
 package pedro.serejo.desafio.controller;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.Optional;
 import java.util.Random;
 
@@ -60,7 +59,7 @@ public class UserController {
 
 	@GetMapping("list")
 	public String listUsers(Model model, CsrfToken token) {
-		model.addAttribute("token", token.getToken());
+		
 		model.addAttribute("users", userRepository.findAll());
 		return "UserList";
 	}

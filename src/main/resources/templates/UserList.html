@@ -37,9 +37,9 @@
 					type="hidden" name="email" th:value="${u.email}">
 
 				<div class="col-1">
-					<a th:href="'update/'+ ${u.id}"><button type="button" class="btn btn-outline-primary btn-sm">Atualizar</button></a>
+					<a th:href="'update/'+ ${u.id}"><button type="button" class="btn btn-outline-primary btn-sm">Editar</button></a>
 				</div>
-				<div th:if="${u.email}!='admin@email.com.br'" class="col-1">
+				<div th:if="${u.email}!= ${user.email}" class="col-1">
 					<button   type="submit" class="btn btn-outline-danger btn-sm">Deletar</button>
 				</div>
 			</div>

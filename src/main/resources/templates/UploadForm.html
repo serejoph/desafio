@@ -21,27 +21,32 @@
 		</div>
 		<form action="uploadFile" method="post" enctype="multipart/form-data">
 			<div class="custom-file card rounded">
-				
-					<input name="file" type="file" accept=".csv" class="d-flex justify-content-center">
-				
+
+				<input name="file" type="file" accept=".csv"
+					class="d-flex justify-content-center">
+
 			</div>
 			<div class="form-text text-muted">Selecionar o arquivo para
 				realizar o upload</div>
-				<div class="text-danger" th:if="${error}" th:text="${error}">Mensagem de erro</div>
-		<button type="submit" class="btn btn-outline-primary mt-3">Importar</button>
+			<div class="text-danger" th:if="${error}" th:text="${error}">Mensagem
+				de erro</div>
+			<button type="submit" class="btn btn-outline-primary mt-3">Importar</button>
 		</form>
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Transações Registradas</h1>
 		</div>
 		<div class="row d-flex justify-content-center">
-		<span class="col-2 fw-bold">Data da importação</span> 
-		<span class="col-2 fw-bold">Data das transações</span>
+			<span class="col-2 fw-bold">Data da importação</span> <span
+				class="col-2 fw-bold">Data das transações</span>
 		</div>
 		<div th:each=" i : ${imports}">
-		<div class="row d-flex justify-content-center">
-		<span th:text="${#temporals.format(i.importDateTime,'dd/MM/yyyy HH:mm:ss')}" class="col-2 bold"></span> 
-		<span th:text="${#temporals.format(i.transactionsDate, 'dd/MM/yyyy')}" class="col-2 bold"></span>
-		</div>
+			<div class="row d-flex justify-content-center">
+				<span
+					th:text="${#temporals.format(i.importDateTime,'dd/MM/yyyy HH:mm:ss')}"
+					class="col-2 bold"></span> <span
+					th:text="${#temporals.format(i.transactionsDate, 'dd/MM/yyyy')}"
+					class="col-2 bold"></span>
+			</div>
 		</div>
 
 	</div>

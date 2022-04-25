@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,10 +66,13 @@ public class UserController {
 	}
 
 	@PostMapping("delete")
-	public String deleteUser(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
-		if (user.isPresent() && !email.equals("admin@email.com.br"))
-			userRepository.delete(user.get());
+	@Transactional
+	public String deleteUser(Long id) {
+		
+		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Optional<User> user = userRepository.findById(id);
+		if (user.isPresent() && !id.equals(1l) && !id.equals(currentUser.getId()))
+			user.get().setEnabled(false);
 
 		return "redirect:/user/list";
 	}

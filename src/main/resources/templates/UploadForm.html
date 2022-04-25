@@ -15,7 +15,7 @@
 <meta charset="UTF-8">
 </head>
 <body>
-<div th:insert="~{fragments :: topo(${user})}"></div>
+	<div th:insert="~{fragments :: topo(${user})}"></div>
 	<div class="container">
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Importar Transações</h1>
@@ -24,8 +24,8 @@
 			<div class="custom-file card rounded">
 
 				<input name="file" type="file" accept=".csv"
-					class="d-flex justify-content-center">
-					<input type="hidden" name="_csrf" th:value="${token}">
+					class="d-flex justify-content-center"> <input type="hidden"
+					name="_csrf" th:value="${token}">
 
 			</div>
 			<div class="form-text text-muted">Selecionar o arquivo para
@@ -39,15 +39,18 @@
 		</div>
 		<div class="row d-flex justify-content-center">
 			<span class="col-2 fw-bold">Data da importação</span> <span
-				class="col-2 fw-bold">Data das transações</span>
+				class="col-2 fw-bold">Data das transações</span> <span
+				class="col-2 fw-bold">Usuário</span><span class="col-2 fw-bold">Opções</span>
 		</div>
 		<div th:each=" i : ${imports}">
-			<div class="row d-flex justify-content-center">
+			<div class="row d-flex justify-content-center mb-2 mt-2">
 				<span
 					th:text="${#temporals.format(i.importDateTime,'dd/MM/yyyy HH:mm:ss')}"
-					class="col-2 bold"></span> <span
+					class="col-2"></span> <span
 					th:text="${#temporals.format(i.transactionsDate, 'dd/MM/yyyy')}"
-					class="col-2 bold"></span>
+					class="col-2"></span> <span class="col-2" th:text="${i.user.name}"></span><span
+					class="col-2"><a th:href="'detail/' + ${i.id}"><button type="button"
+							class="btn btn-sm btn-outline-primary">Detalhar</button></a></span>
 			</div>
 		</div>
 

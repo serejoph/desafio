@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -36,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and().formLogin().loginPage("/login")
 				.usernameParameter("email")
 				.passwordParameter("password")
-				.loginProcessingUrl("/login/process").defaultSuccessUrl("/user/list", true)
+				.loginProcessingUrl("/login/process").defaultSuccessUrl("/upload/form", true)
 				.failureUrl("/login?error=true")
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 //				.deleteCookies("JSESSIONID")

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Transaction {
@@ -23,7 +24,22 @@ public class Transaction {
 	private String recipientAccount;
 	private BigDecimal ammount;
 	private LocalDateTime dateTime;
+	@ManyToOne
+	private Import upload;
 	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Import getUpload() {
+		return upload;
+	}
+	public void setUpload(Import imp) {
+		this.upload = imp;
+	}
 	public String getSenderBank() {
 		return senderBank;
 	}

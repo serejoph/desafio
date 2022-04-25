@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,13 +20,14 @@ import org.springframework.web.servlet.view.RedirectView;
 import pedro.serejo.desafio.exceptions.CsvException;
 import pedro.serejo.desafio.model.Import;
 import pedro.serejo.desafio.model.Transaction;
+import pedro.serejo.desafio.model.User;
 import pedro.serejo.desafio.repositories.ImportRepository;
 import pedro.serejo.desafio.repositories.TransactionRepository;
 import pedro.serejo.desafio.validation.CsvValidator;
 
 @Controller
 @RequestMapping("upload")
-public class UploadController {
+public class TransactionsController {
 
 	@Autowired
 	CsvValidator csvVal;
@@ -48,9 +51,12 @@ public class UploadController {
 		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 		String[] csvLines = br.lines().toArray(x -> new String[x]);
 		List<Transaction> validTransactions = csvVal.validate(csvLines);
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Import imp = new Import(validTransactions.get(0).getDateTime().toLocalDate(), user);
+		iRepository.save(imp);
+		validTransactions.forEach(x-> x.setUpload(imp));
 		validTransactions.forEach(tRepository::save);
 		
-		iRepository.save(new Import(validTransactions.get(0).getDateTime().toLocalDate()));
 
 		return new RedirectView("/upload/form");
 	}
@@ -62,5 +68,16 @@ public class UploadController {
 		return "forward:form";
 	}
 	
+	@GetMapping("detail/{id}")
+	public String detailImport(@PathVariable Long id, Model model) {
+		
+		
+		List<Transaction> transactions = tRepository.findByUploadId(id);
+		Import imp =iRepository.findById(id).get();
+		model.addAttribute("import", imp);
+		model.addAttribute("transactions", transactions);
+		
+		return "ImportDetails";
+	}
 
 }

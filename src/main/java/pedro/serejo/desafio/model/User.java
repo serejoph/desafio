@@ -23,14 +23,17 @@ public class User implements UserDetails {
 	private String name;
 	private String email;
 	private String password;
+	private boolean enabled;
 
 	public User() {
+		this.enabled = true;
 		this.name = "Visitante";
 	}
 
 	public User(UserFormDto userForm) {
 		this.name = userForm.getName();
 		this.email = userForm.getEmail();
+		this.enabled = true;
 
 	}
 
@@ -101,7 +104,13 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return true;
+		return enabled;
 	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
+	
 
 }

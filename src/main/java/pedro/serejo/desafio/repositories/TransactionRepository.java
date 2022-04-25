@@ -13,4 +13,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>{
 
 	public List<Transaction> findByLocalDate(LocalDate localDate);
 	
+	public List<Transaction> findByUploadId(Long id);
+	
 }

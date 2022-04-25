@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -16,6 +17,10 @@ public class Import {
 	Long id;
 	LocalDateTime importDateTime;
 	LocalDate transactionsDate;
+	
+	@ManyToOne
+	User user;
+	
 	
 	public Long getId() {
 		return id;
@@ -40,8 +45,17 @@ public class Import {
 		
 	}
 	
-	public Import (LocalDate transactionsDate) {
+	public Import (LocalDate transactionsDate, User user) {
 		this.transactionsDate = transactionsDate;
 		this.importDateTime = LocalDateTime.now();
+		this.user = user;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 }

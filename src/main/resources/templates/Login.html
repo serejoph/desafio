@@ -20,7 +20,7 @@
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Sistema de Análise de Transações Financeiras </h1>
 		</div>
-		<form action="/login" method="post">
+		<form action="/login/process" method="post">
 
 			<div class="form-outline mb-4">
 				<input type="text" name="email" class="form-control" /> <label
@@ -32,8 +32,9 @@
 				<input type="password" name="password" class="form-control" /> <label
 					class="form-label" for="password">Senha</label>
 			 	<input type="hidden" name="_csrf" th:value="${token}">
-
+			 	<div class="text-danger" th:if="${error}">Usuário ou senha incorretos</div>
 			</div>
+			
 			<button type="submit" class="btn btn-primary btn-block mb-4">Entrar</button>
 
 		</form>

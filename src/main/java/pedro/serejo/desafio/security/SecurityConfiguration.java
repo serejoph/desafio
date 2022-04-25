@@ -8,8 +8,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -23,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
 	}
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
@@ -31,12 +32,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login*").permitAll()
-		.anyRequest().authenticated().and().formLogin();
-//		.and().formLogin().loginPage("/login")
-//			.loginProcessingUrl("/login").failureUrl("/login.html?error=true")
+		http.authorizeRequests().antMatchers("/login*").permitAll().anyRequest().authenticated()
+				.and().formLogin().loginPage("/login")
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.loginProcessingUrl("/login/process").defaultSuccessUrl("/user/list", true)
+				.failureUrl("/login?error=true")
+				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//				.deleteCookies("JSESSIONID")
 				;
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+
+//				.and().formLogin()
+//				.loginPage("/login").loginProcessingUrl("/login").failureUrl("/login?error=true");
+
 	}
 
 }

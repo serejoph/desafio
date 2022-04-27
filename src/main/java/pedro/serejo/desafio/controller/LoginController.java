@@ -19,7 +19,7 @@ public class LoginController {
 	AuthenticationManager authManager;
 
 	@GetMapping
-	public String loginForm(CsrfToken token, Model model, String error) {
+	public String loginForm(String error) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -27,8 +27,7 @@ public class LoginController {
 			return "redirect:/upload/form";
 		
 		
-		model.addAttribute("token", token.getToken());
-		model.addAttribute("error", error);
+		
 		
 		return "Login";
 	}

@@ -35,15 +35,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and().formLogin().loginPage("/login")
 				.usernameParameter("email")
 				.passwordParameter("password")
-				.loginProcessingUrl("/login/process").defaultSuccessUrl("/upload/form", true)
+				.loginProcessingUrl("/login").defaultSuccessUrl("/upload/form", true)
 				.failureUrl("/login?error=true")
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//				.deleteCookies("JSESSIONID")
 				;
-
-//				.and().formLogin()
-//				.loginPage("/login").loginProcessingUrl("/login").failureUrl("/login?error=true");
-
 	}
 
 }

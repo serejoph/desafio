@@ -1,22 +1,28 @@
-package pedro.serejo.desafio.validation;
+package pedro.serejo.desafio.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import pedro.serejo.desafio.exceptions.CsvException;
 import pedro.serejo.desafio.model.Transaction;
 import pedro.serejo.desafio.repositories.TransactionRepository;
 
 @Component
-public class CsvValidator {
+public class CSVReader implements FileReader{
 
 	@Autowired
 	TransactionRepository rep;
@@ -78,5 +84,21 @@ public class CsvValidator {
 	private void checkIfEmpty(String[] csvLines) {
 		if (csvLines.length == 0)
 			throw new CsvException("O arquivo está vazio");
+	}
+
+	@Override
+	public List<Transaction> getTransactions(MultipartFile file) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+		String[] csvLines = br.lines().toArray(x -> new String[x]);
+		List<Transaction> transactions =  Arrays.asList(csvLines).stream().map(this::instantiateTransaction).collect(Collectors.toList());
+		
+		return transactions;
+	}
+	
+	private Transaction instantiateTransaction(String transactionString) {
+		String[] fields = transactionString.split(",");
+		LocalDateTime localDateTime = LocalDateTime.parse(fields[7]);
+		Transaction transaction = new Transaction(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], new BigDecimal(fields[6]), localDateTime);
+		return transaction;
 	}
 }

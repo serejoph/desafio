@@ -3,6 +3,7 @@ package pedro.serejo.desafio.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,17 @@ import pedro.serejo.desafio.model.Transaction;
 import pedro.serejo.desafio.model.User;
 import pedro.serejo.desafio.repositories.ImportRepository;
 import pedro.serejo.desafio.repositories.TransactionRepository;
-import pedro.serejo.desafio.validation.CsvValidator;
+import pedro.serejo.desafio.service.CSVReader;
+import pedro.serejo.desafio.service.ParsingService;
 
 @Controller
 @RequestMapping("upload")
 public class TransactionsController {
 
 	@Autowired
-	CsvValidator csvVal;
+	ParsingService fileReader;
+	@Autowired
+	CSVReader csvVal;
 	@Autowired
 	TransactionRepository tRepository;
 	@Autowired
@@ -46,8 +50,20 @@ public class TransactionsController {
 	}
 
 	@PostMapping("uploadFile")
-	public Object uploadCsvFile(Model model, MultipartFile file) throws IOException {
+	public Object uploadCsvFile(Model model, MultipartFile file)
+			throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 
+		List<Transaction> transactions = fileReader.getTransactions(file);
+		
+		
+		
+		
+		
+		
+	
+		
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 		String[] csvLines = br.lines().toArray(x -> new String[x]);
 		List<Transaction> validTransactions = csvVal.validate(csvLines);
@@ -61,7 +77,7 @@ public class TransactionsController {
 		return new RedirectView("/upload/form");
 	}
 
-	@ExceptionHandler
+	@ExceptionHandler()
 	public String csvValidationHandler(Model model, CsvException e) {
 		
 		model.addAttribute("error", e.getMessage());

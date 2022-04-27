@@ -1,11 +1,11 @@
 package pedro.serejo.desafio.exceptions;
 
-public class CsvException extends RuntimeException{
+public class UploadException extends RuntimeException{
 
 
 	private static final long serialVersionUID = 1L;
 
-	public CsvException(String msg) {
+	public UploadException(String msg) {
 		super(msg);
 	}
 	

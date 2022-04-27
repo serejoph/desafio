@@ -21,7 +21,8 @@ public class ParsingService {
 		String fileType = fileName.substring(fileName.length() - 3).toUpperCase();
 		FileReader reader = (FileReader)Class.forName("pedro.serejo.desafio.service." + fileType + "Reader").getConstructor()
 				.newInstance();
-		return reader.getTransactions(file);
+		List<Transaction> transactions = reader.getTransactions(file);
+		return transactions;
 	}
 
 }

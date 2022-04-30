@@ -5,7 +5,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +18,14 @@ public class LoginController {
 	AuthenticationManager authManager;
 
 	@GetMapping
-	public String loginForm(String error) {
+	public String loginForm(String error, Model model) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken))
 			return "redirect:/upload/form";
 		
-		
+		model.addAttribute("error", error);
 		
 		
 		return "Login";

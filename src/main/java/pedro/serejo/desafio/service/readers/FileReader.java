@@ -1,4 +1,4 @@
-package pedro.serejo.desafio.service;
+package pedro.serejo.desafio.service.readers;
 
 import java.io.IOException;
 import java.util.List;

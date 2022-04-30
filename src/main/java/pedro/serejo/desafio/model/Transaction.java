@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 @Entity
+@XStreamAlias("transacao")
 public class Transaction {
 
 	@Id

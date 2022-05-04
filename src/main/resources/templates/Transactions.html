@@ -20,7 +20,7 @@
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Importar Transações</h1>
 		</div>
-		<form action="uploadFile" method="post" enctype="multipart/form-data">
+		<form method="post" action="../transactions/upload" enctype="multipart/form-data">
 			<div class="custom-file card rounded">
 
 				<input name="file" type="file" accept=".csv,.xml"
@@ -51,12 +51,12 @@
 					class="col-2"></span> <span
 					th:text="${#temporals.format(i.transactionsDate, 'dd/MM/yyyy')}"
 					class="col-2"></span> <span class="col-2" th:text="${i.user.name}"></span><span
-					class="col-2"><a th:href="'detail/' + ${i.id}"><button
+					class="col-2"><a th:href="'/transactions/detail/' + ${i.id}"><button
 							type="button" class="btn btn-sm btn-outline-primary">Detalhar</button></a></span>
 			</div>
 		</div>
 		
-		<a href="analyze"><button type="button" class="btn btn-primary">Analizar Transações</button></a>
+		<a href="/transactions/analyze"><button type="button" class="btn btn-primary">Analizar Transações</button></a>
 				
 			
 		

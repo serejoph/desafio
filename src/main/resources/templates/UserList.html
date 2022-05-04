@@ -37,7 +37,7 @@
 					type="hidden" name="id" th:value="${u.id}">
 
 				<div class="col-1">
-					<a th:href="'update/'+ ${u.id}"><button type="button" class="btn btn-outline-primary btn-sm">Editar</button></a>
+					<a th:href="'user/update/'+ ${u.id}"><button type="button" class="btn btn-outline-primary btn-sm">Editar</button></a>
 				</div>
 				<div th:if="${u.email}!= ${user.email}" class="col-1">
 					<button   type="submit" class="btn btn-outline-danger btn-sm">Deletar</button>

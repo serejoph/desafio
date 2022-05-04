@@ -18,7 +18,7 @@ import pedro.serejo.desafio.repositories.ImportRepository;
 import pedro.serejo.desafio.repositories.TransactionRepository;
 
 @Service
-public class TransactionsService {
+public class TransactionsValidator {
 
 	@Autowired
 	ImportRepository iRepository;
@@ -26,12 +26,18 @@ public class TransactionsService {
 	TransactionRepository tRepository;
 
 	public List<Transaction> validate(List<Transaction> transactions) {
+		
+		if (transactions == null || transactions.isEmpty()) throw new UploadException("O arquivo inválido");
+		
 		LocalDate firstDate = transactions.get(0).getDateTime().toLocalDate();
 		checkImports(firstDate);
 		
 		List<Transaction> validTransactions = transactions.stream().filter(this::checkEmptyFields)
 				.filter(x -> x.getDateTime().toLocalDate().equals(firstDate)).collect(Collectors.toList());
-
+		if (validTransactions.isEmpty()) throw new UploadException("O arquivo não contém transações válidas");
+		
+		
+		
 		return validTransactions;
 	}
 
@@ -43,9 +49,9 @@ public class TransactionsService {
 	public boolean checkEmptyFields(Transaction transaction) {
 		
 		Object[] fields = {transaction.getAmmount(), transaction.getDateTime(),
-				transaction.getRecipientAccount(), transaction.getRecipientBank(), transaction.getRecipientBranch(),
-				transaction.getSenderAccount(), transaction.getSenderBank(), transaction.getSenderBranch()};
-		if(Arrays.asList(fields).contains(null)) return false;
+				transaction.getRecipient().getAccount(), transaction.getRecipient().getBankName(), transaction.getRecipient().getBranch(),
+				transaction.getSender().getAccount(), transaction.getSender().getBankName(), transaction.getSender().getBranch()};
+		if(Arrays.asList(fields).contains(null) || Arrays.asList(fields).contains("") ) return false;
 		return true;
 	}
 	

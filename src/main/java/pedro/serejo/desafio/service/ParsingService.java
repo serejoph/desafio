@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import pedro.serejo.desafio.exceptions.UploadException;
 import pedro.serejo.desafio.model.Transaction;
 import pedro.serejo.desafio.service.readers.FileReader;
 
@@ -18,13 +19,15 @@ public class ParsingService {
 			NoSuchMethodException, SecurityException, ClassNotFoundException, IOException {
 		
 		String fileType = file.getContentType();
-		String fileExtension = fileType.substring(fileType.length() - 3).toUpperCase();
+		System.out.println(fileType);
+		String fileExtension = fileType.substring(5).toUpperCase();
 		FileReader reader = (FileReader)Class.forName("pedro.serejo.desafio.service.readers." + fileExtension + "Reader").getConstructor()
 				.newInstance();
 		
 		
 		
 		List<Transaction> transactions = reader.getTransactions(file);
+		if (transactions.isEmpty()) throw new UploadException("O arquivo não contém transações");
 		return transactions;
 	}
 

@@ -37,11 +37,13 @@
 		<div class="mt-4 p-5 rounded d-flex justify-content-center">
 			<h1>Transações Registradas</h1>
 		</div>
+
 		<div class="row d-flex justify-content-center">
 			<span class="col-2 fw-bold">Data da importação</span> <span
 				class="col-2 fw-bold">Data das transações</span> <span
 				class="col-2 fw-bold">Usuário</span><span class="col-2 fw-bold">Opções</span>
 		</div>
+		
 		<div th:each=" i : ${imports}">
 			<div class="row d-flex justify-content-center mb-2 mt-2">
 				<span
@@ -49,11 +51,15 @@
 					class="col-2"></span> <span
 					th:text="${#temporals.format(i.transactionsDate, 'dd/MM/yyyy')}"
 					class="col-2"></span> <span class="col-2" th:text="${i.user.name}"></span><span
-					class="col-2"><a th:href="'detail/' + ${i.id}"><button type="button"
-							class="btn btn-sm btn-outline-primary">Detalhar</button></a></span>
+					class="col-2"><a th:href="'detail/' + ${i.id}"><button
+							type="button" class="btn btn-sm btn-outline-primary">Detalhar</button></a></span>
 			</div>
 		</div>
-
+		
+		<a href="analyze"><button type="button" class="btn btn-primary">Analizar Transações</button></a>
+				
+			
+		
 	</div>
 
 

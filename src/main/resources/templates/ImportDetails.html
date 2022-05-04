@@ -17,8 +17,68 @@
 <body>
 	<div th:insert="~{fragments :: topo(${user})}"></div>
 
-	<div th:each="t : ${transactions}">
-	<span th:text="${t.senderBank}"></span></div>
+	<div class="container">
+		<div class="mt-4 p-5 rounded d-flex justify-content-center">
+			<h1>Detalhes da Importação</h1>
+		</div>
 
+		<div class="card border-2 rounded">
+		
+		
+			<div class="row align-items-center p-2">
+				<span class="col-2">Importado em:</span><input class="col-auto" type="text"
+					th:value="${#temporals.format(import.importDateTime, 'dd/MM/yyyy HH:mm:ss')}" disabled>
+			</div>
+			
+			<div class="row align-items-center p-2">
+				<span class="col-2">Importado por:</span><input class="col-auto" type="text"
+					th:value="${import.user.name}" disabled>
+			</div>
+			
+			<div class="row align-items-center p-2">
+				<label class="col-2">Data das Transações:</label><input class="col-auto" type="text"
+					th:value="${#temporals.format(import.transactionsDate, 'dd/MM/yyyy')}" disabled>
+			</div>
+		</div>
+		<div class="mt-4 p-5 rounded d-flex justify-content-center">
+			<h1>Transações Importadas</h1>
+		</div>
+			
+<table class="table table-striped table-bordered table-light">
+	<thead class="table-secondary">
+	  <tr class="text-center">
+	    <th class="" colspan="3">Origem</th>
+	    <th class="" colspan="3">Destino</th>
+	    <th class="align-middle"  rowspan="2">Valor</th>
+	  </tr>
+	  <tr>
+	    <th class="">Banco</th>
+	    <th class="">Agência</th>
+	    <th class="">Conta</th>
+	    <th class="">Banco</th>
+	    <th class="">Agência</th>
+	    <th class="">Conta</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr th:each="t : ${transactions}">
+	    <td class="" th:text="${t.sender.bankName}"></td>
+	    <td class="" th:text="${t.sender.branch}"></td>
+	    <td class="" th:text="${t.sender.account}"></td>
+	    <td class="" th:text="${t.recipient.bankName}"></td>
+	    <td class="" th:text="${t.recipient.branch}"></td>
+	    <td class="" th:text="${t.recipient.account}"></td>
+	    <td class="" th:text="'R$ ' + ${#numbers.formatDecimal(t.ammount,1,'POINT',2,'COMMA')}"></td>
+	  </tr>
+	  
+	</tbody>
+</table>
+		<a href="/upload/form"> 
+				<button type="button" class="btn btn-outline-primary mb-3">Voltar</button>
+			</a>	
+		</div>
+	
+	
+	
 </body>
 </html>

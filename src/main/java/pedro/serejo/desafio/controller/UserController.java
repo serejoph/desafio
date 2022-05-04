@@ -31,6 +31,14 @@ public class UserController {
 	@Autowired
 	MailService mailService;
 
+	@GetMapping
+	public String listUsers(Model model, CsrfToken token) {
+		
+		model.addAttribute("users", userRepository.findAll());
+		return "UserList";
+	}
+	
+	
 	@GetMapping("new-user")
 	public String userForm(CsrfToken token, Model model) {
 
@@ -44,42 +52,24 @@ public class UserController {
 
 		if (res.hasErrors()) {
 			return "NewUserForm";
-
 		}
-		User user = new User(userForm);
+		User user;
+		Optional<User> userOptional = userRepository.findByEmail(userForm.getEmail());
+		if (userOptional.isPresent()) {
+			user = userOptional.get();
+			user.setName(userForm.getName());
+			user.setEnabled(true);
+		} else user = new User(userForm);
+		
 		Random r = new Random();
 		String rawPassword = String.valueOf(r.nextInt(100_000, 999_999));
 		user.setPassword(rawPassword);
 		userRepository.save(user);
-
+		
 		new Thread(() -> mailService.sendPassword(user, rawPassword)).start();
 
-		return "redirect:/user/list";
+		return "redirect:/user";
 
-	}
-
-	@GetMapping("list")
-	public String listUsers(Model model, CsrfToken token) {
-		
-		model.addAttribute("users", userRepository.findAll());
-		return "UserList";
-	}
-
-	@PostMapping("delete")
-	@Transactional
-	public String deleteUser(Long id) {
-		
-		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Optional<User> user = userRepository.findById(id);
-		if (user.isPresent() && !id.equals(1l) && !id.equals(currentUser.getId()))
-			user.get().setEnabled(false);
-
-		return "redirect:/user/list";
-	}
-
-	@GetMapping("manage")
-	public String manageUsers() {
-		return "UserList";
 	}
 
 	@GetMapping("update/{id}")
@@ -89,7 +79,7 @@ public class UserController {
 		User user = userOptional.get();
 		model.addAttribute("id", user.getId());
 		model.addAttribute("updatingUser", new UserFormDto(user));
-		return "UpdateUser";
+		return "UpdateUserForm";
 
 	}
 	
@@ -104,13 +94,25 @@ public class UserController {
 			model.addAttribute("id", id);
 			model.addAttribute("updatingUser", userFormDto);
 			model.addAttribute("emailError", "E-mail já cadastrado!");
-			return "UpdateUser";
+			return "UpdateUserForm";
 		}
 		user.setEmail(userFormDto.getEmail());
 		user.setName(userFormDto.getName());
 		userRepository.save(user);
 		
-		return "redirect:/user/list";
+		return "redirect:/user";
 	}
 
+	@PostMapping("delete")
+	@Transactional
+	public String deleteUser(Long id) {
+		
+		User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Optional<User> user = userRepository.findById(id);
+		if (user.isPresent() && !id.equals(1l) && !id.equals(currentUser.getId()))
+			user.get().setEnabled(false);
+
+		return "redirect:/user";
+	}
+	
 }

@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.RedirectView;
 
 import pedro.serejo.desafio.controller.dto.SuspectTransactionsDto;
 import pedro.serejo.desafio.exceptions.UploadException;
@@ -30,13 +30,13 @@ import pedro.serejo.desafio.service.TransactionAnalyzer;
 import pedro.serejo.desafio.service.TransactionsValidator;
 
 @Controller
-@RequestMapping("upload")
+@RequestMapping("transactions")
 public class TransactionsController {
 
 	@Autowired
 	ParsingService parsingService;
 	@Autowired
-	TransactionsValidator transactionsService; 
+	TransactionsValidator transactionsValidator; 
 	@Autowired
 	TransactionRepository tRepository;
 	@Autowired
@@ -44,47 +44,38 @@ public class TransactionsController {
 	@Autowired
 	TransactionAnalyzer tAnalyzer;
 
-	@RequestMapping("form")
-	public String getUploadForm(Model model) {
+	@RequestMapping
+	public String listTransactions(Model model) {
 		
 		List<Import> imports = iRepository.findAll();
 		model.addAttribute("imports", imports);
 		
-		return "UploadForm";
+		return "Transactions";
 	}
 
-	@PostMapping("uploadFile")
-	public Object uploadCsvFile(Model model, MultipartFile file)
+	@PostMapping("upload")
+	public String uploadFile(Model model, MultipartFile file)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IOException
 			{
 
 		if (file.isEmpty()) throw new UploadException("O arquivo enviado está vazio");
 		List<Transaction> transactions = parsingService.getTransactions(file);
-		List<Transaction> validTransactions = transactionsService.validate(transactions);
-		transactionsService.persist(validTransactions);
+		List<Transaction> validTransactions = transactionsValidator.validate(transactions);
+		transactionsValidator.persist(validTransactions);
 		
 
-		return new RedirectView("/upload/form");
+		return "redirect:/transactions";
 	}
 
 
 
-	@ExceptionHandler(value = UploadException.class)
-	public String uploadExceptionHandler(Model model, UploadException e) {
-		
-		model.addAttribute("error", e.getMessage());
-		return "forward:form";
-	}
-	
 	@GetMapping("detail/{id}")
 	public String detailImport(@PathVariable Long id, Model model) {
-		
 		
 		List<Transaction> transactions = tRepository.findByUploadId(id);
 		Import imp =iRepository.findById(id).get();
 		model.addAttribute("import", imp);
 		model.addAttribute("transactions", transactions);
-		
 		return "ImportDetails";
 	}
 	
@@ -116,4 +107,13 @@ public class TransactionsController {
 		return "AnalyzeTransactions";
 	}
 
+
+	@ExceptionHandler(value = UploadException.class)
+	public String uploadExceptionHandler(Model model, UploadException e, HttpServletRequest req) {		
+		
+		model.addAttribute("error", e.getMessage());
+		return "forward:/transactions";
+	}
+	
+	
 }

@@ -9,13 +9,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
-@Profile("!test")
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Profile("test")
+public class TestSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	UserDetailsService userDetailsService;
@@ -33,13 +34,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/login*").permitAll().anyRequest().authenticated()
+		http.authorizeRequests().antMatchers("/login*").permitAll()
+		.antMatchers("/**").permitAll()
+				.anyRequest().authenticated()
 				.and().formLogin().loginPage("/login")
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.loginProcessingUrl("/login").defaultSuccessUrl("/transactions", true)
 				.failureUrl("/login?error=true")
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.and().csrf().disable().headers().frameOptions().disable();
 				;
 	}
 

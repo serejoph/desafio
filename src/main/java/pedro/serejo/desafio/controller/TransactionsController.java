@@ -36,7 +36,7 @@ public class TransactionsController {
 	@Autowired
 	ParsingService parsingService;
 	@Autowired
-	TransactionsValidator transactionsValidator; 
+	TransactionsValidator transactionsValidator;
 	@Autowired
 	TransactionRepository tRepository;
 	@Autowired

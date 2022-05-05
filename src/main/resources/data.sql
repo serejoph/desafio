@@ -1,0 +1,1 @@
+insert into user (email, enabled, name, password) values ('admin@email.com.br', true, 'admin', '$2a$10$9raPD6z4X6CrP8lRrbHgBO0zH6rvaebetyoYyYdBKXn3OXwClSh2a');

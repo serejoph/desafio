@@ -29,7 +29,7 @@
 					th:field="*{email}" name="email" type="email"
 					class="d-flex justify-content-center"> <span
 					th:errors="*{email}" class="text-danger"></span><span class="text-danger" th:if="${emailError}" th:text="${emailError}"></span> <input
-					type="hidden" name="_csrf" th:value="${token}">
+					th:if="${token}" type="hidden" name="_csrf" th:value="${token}">
 					<input type="hidden" name="id" th:value="${id}">
 				
 

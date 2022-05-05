@@ -26,8 +26,9 @@ try {
 	
 	@ModelAttribute("token")
 	public String token(CsrfToken token) {
-
-		return token.getToken();		
+		if (token!= null)
+		return token.getToken();
+		return "";
 	}
 	
 

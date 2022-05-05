@@ -31,7 +31,7 @@
 			<div class="form-outline mb-4">
 				<input type="password" name="password" class="form-control" /> <label
 					class="form-label" for="password">Senha</label>
-			 	<input type="hidden" name="_csrf" th:value="${token}">
+			 	<input th:if="${token}" type="hidden" name="_csrf" th:value="${token}">
 			 	<div class="text-danger" th:if="${error}">Usuário ou senha incorretos</div>
 			</div>
 			

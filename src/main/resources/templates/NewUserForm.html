@@ -28,7 +28,7 @@
 					type="text"><span th:errors="*{name}" class="text-danger"></span> <label for="email">Email</label><input
 					th:field="*{email}" name="email" type="email"
 					class="d-flex justify-content-center"> <span
-					th:errors="*{email}" class="text-danger"></span> <input
+					th:errors="*{email}" class="text-danger"></span> <input th:if="${token}"
 					type="hidden" name="_csrf" th:value="${token}">
 				
 

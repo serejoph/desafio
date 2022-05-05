@@ -23,7 +23,7 @@ public class LoginController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		if (auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken))
-			return "redirect:/upload/form";
+			return "redirect:/transactions";
 		
 		model.addAttribute("error", error);
 		

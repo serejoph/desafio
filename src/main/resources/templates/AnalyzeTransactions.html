@@ -27,7 +27,7 @@
 
 				<span>Selecione o mês para analisar as transações</span> 
 				<input name="month" type="month">
-				<input type="hidden" name="_csrf" th:value="${token}">
+				<input th:if="${token}" type="hidden" name="_csrf" th:value="${token}">
 			
 			</div>
 			<button type="submit" class="btn btn-outline-primary mt-3">Realizar

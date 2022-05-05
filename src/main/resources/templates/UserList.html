@@ -33,7 +33,7 @@
 
 				<span th:text="${u.name}" class="col-3 bold"></span> <span
 					th:text="${u.email}" class="col-3 bold"></span> <input
-					type="hidden" name="_csrf" th:value="${token}"> <input
+					th:if="${token}" type="hidden" name="_csrf" th:value="${token}"> <input
 					type="hidden" name="id" th:value="${u.id}">
 
 				<div class="col-1">

@@ -24,7 +24,7 @@
 			<div class="custom-file card rounded">
 
 				<input name="file" type="file" accept=".csv,.xml"
-					class="d-flex justify-content-center"> <input type="hidden"
+					class="d-flex justify-content-center"> <input th:if="${token}" type="hidden"
 					name="_csrf" th:value="${token}">
 
 			</div>
@@ -59,7 +59,6 @@
 		<a href="/transactions/analyze"><button type="button" class="btn btn-primary">Analizar Transações</button></a>
 				
 			
-		
 	</div>
 
 

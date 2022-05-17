@@ -1,3 +1,5 @@
-# desafio
+# Challenge Back-End Alura
 
-Projeto criado no
+Projeto criado durante o terceiro desafio de back-end da Alura.
+
+

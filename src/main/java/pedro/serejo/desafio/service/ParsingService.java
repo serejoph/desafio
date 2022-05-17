@@ -18,6 +18,7 @@ public class ParsingService {
 			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException, ClassNotFoundException, IOException {
 		
+		if (file.isEmpty()) throw new UploadException("O arquivo enviado está vazio");
 		String fileType = file.getContentType();
 		System.out.println(fileType);
 		String fileExtension = fileType.substring(5).toUpperCase();

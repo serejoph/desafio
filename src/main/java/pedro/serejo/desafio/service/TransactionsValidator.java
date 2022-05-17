@@ -63,6 +63,7 @@ public class TransactionsValidator {
 		iRepository.save(imp);
 		validTransactions.forEach(x -> x.setUpload(imp));
 		validTransactions.forEach(tRepository::save);
+		
 
 	}
 

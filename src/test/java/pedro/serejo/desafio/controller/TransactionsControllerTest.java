@@ -5,10 +5,13 @@ import static org.mockito.Mockito.times;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -48,26 +51,10 @@ class TransactionsControllerTest {
 	@Autowired
 	MockMvc mock;
 
+	
 	@Test
 	@WithMockUser(username = "admin@email.com.br", password = "123999")
-	void listaDeImportacoesPopulada() throws Exception {
-		User user = new User();
-		user.setEmail("pedro.serejo@email.com");
-		user.setEnabled(true);
-		user.setId(2l);
-		user.setName("Pedro");
-		user.setPassword("123");
-		Import imp = new Import(LocalDate.now(), user);
-		List<Import> imports = List.of(imp);
-		Mockito.when(iRepository.findAll()).thenReturn(imports);
-		mock.perform(MockMvcRequestBuilders.get("/transactions"))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-		Mockito.verify(iRepository).findAll();
-	}
-
-	@Test
-	@WithMockUser(username = "admin@email.com.br", password = "123999")
-	void listaDeImportacoesVazia() throws Exception {
+	void requisicaoListaDeTransacoes() throws Exception {
 		mock.perform(MockMvcRequestBuilders.get("/transactions"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 		Mockito.verify(iRepository).findAll();
@@ -92,16 +79,30 @@ class TransactionsControllerTest {
 		Mockito.verify(transactionsValidator, times(1)).persist(validTransactions);
 	
 	}
-
+	
 	@Test
 	@WithMockUser(username = "admin@email.com.br", password = "123999")
-	void uploadDeArquivoVazio() throws Exception {
-
-		MockMultipartFile file = new MockMultipartFile("file",
-				new FileInputStream(new File("src/test/resources/vazio.csv")));
-		mock.perform(MockMvcRequestBuilders.multipart("/transactions/upload").file(file));
-		Mockito.verify(parsingService, Mockito.never()).getTransactions(file);
-
+	void detalharTransacao() throws Exception {
+		Import imp = new Import();
+		imp.setId(1l);
+		imp.setImportDateTime(LocalDateTime.now());
+		imp.setTransactionsDate(LocalDate.now());
+		imp.setUser(new User());
+		Mockito.when(iRepository.findById(ArgumentMatchers.any())).thenReturn(Optional.of(imp));
+		
+		mock.perform(MockMvcRequestBuilders.get("/transactions/detail/10")).andExpect(MockMvcResultMatchers.status().isOk());
+		Mockito.verify(tRepository).findByUploadId(10l);
+		Mockito.verify(iRepository).findById(10l);
+		
 	}
-
+	
+	@Test
+	@WithMockUser(username = "admin@email.com.br", password = "123999")
+	void analizarTransacao() throws Exception {
+		String yearMonthString = "1990-12";
+		mock.perform(MockMvcRequestBuilders.post("/transactions/analyze").param("month", yearMonthString));
+		Mockito.verify(tAnalyzer).analyze(yearMonthString);
+		
+	}
+	
 }

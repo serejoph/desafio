@@ -10,9 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Captor;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,7 +55,15 @@ class TransactionsControllerTest {
 	TransactionAnalyzer tAnalyzer;
 	@Autowired
 	MockMvc mock;
+	@Captor
+	ArgumentCaptor<String> captor;
 
+	@BeforeEach
+	private void beforeEach() {
+		MockitoAnnotations.openMocks(this);
+		
+		
+	}
 	
 	@Test
 	@WithMockUser(username = "admin@email.com.br", password = "123999")
@@ -101,7 +114,9 @@ class TransactionsControllerTest {
 	void analizarTransacao() throws Exception {
 		String yearMonthString = "1990-12";
 		mock.perform(MockMvcRequestBuilders.post("/transactions/analyze").param("month", yearMonthString));
-		Mockito.verify(tAnalyzer).analyze(yearMonthString);
+		Mockito.verify(tAnalyzer).analyze(captor.capture());
+		Assertions.assertEquals(yearMonthString, captor.getValue());
+		
 		
 	}
 	

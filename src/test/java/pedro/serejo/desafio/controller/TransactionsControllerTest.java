@@ -79,7 +79,7 @@ class TransactionsControllerTest {
 		List<Transaction> transactions = Arrays.asList(new Transaction(), new Transaction());	
 		List<Transaction> validTransactions = Arrays.asList(transactions.get(0));
 		MockMultipartFile file = new MockMultipartFile("file",
-				new FileInputStream(new File("src/test/resources/exemplo.csv")));
+				new FileInputStream(new File("src/test/resources/maio 2022.csv")));
 		
 		Mockito.when(parsingService.getTransactions(file)).thenReturn(transactions);
 		Mockito.when(transactionsValidator.validate(transactions)).thenReturn(validTransactions);

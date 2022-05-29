@@ -1,4 +1,4 @@
-insert into user (email, enabled, name, password) values ('admin@email.com.br', true, 'admin', '$2a$10$9raPD6z4X6CrP8lRrbHgBO0zH6rvaebetyoYyYdBKXn3OXwClSh2a');
+insert into usuario (email, enabled, name, password) values ('admin@email.com.br', true, 'admin', '$2a$10$9raPD6z4X6CrP8lRrbHgBO0zH6rvaebetyoYyYdBKXn3OXwClSh2a');
 
 INSERT INTO `import` VALUES (9,'2022-05-03 23:28:56','2022-01-02',1),(10,'2022-05-04 00:54:11','2021-05-03',1);
 

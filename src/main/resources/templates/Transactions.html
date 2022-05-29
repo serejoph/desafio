@@ -56,8 +56,10 @@
 			</div>
 		</div>
 		
-		<a href="/transactions/analyze"><button type="button" class="btn btn-primary">Analizar Transações</button></a>
-				
+		<a href="/transactions/analyze"><button type="button" class="btn btn-primary mt-5">Analizar Transações</button></a>
+		<form method="post" th:action="@{transactions/reset}">
+		<button type="submit" class="btn btn-primary mt-3">Apagar Dados</button>
+				</form>
 			
 	</div>
 

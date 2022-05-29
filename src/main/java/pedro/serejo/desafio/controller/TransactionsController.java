@@ -90,6 +90,13 @@ public class TransactionsController {
 
 		return "AnalyzeTransactions";
 	}
+	
+	@PostMapping("reset")
+	public String resetDatabase() {
+		tRepository.deleteAll();
+		iRepository.deleteAll();
+		return "redirect:/transactions";
+	}
 
 	@ExceptionHandler(value = UploadException.class)
 	public String uploadExceptionHandler(UploadException e, HttpServletRequest request, RedirectAttributes red) {

@@ -1,7 +1,6 @@
 # Challenge Back-End
 
 > Consiste em um sistema que permite o upload de arquivos em formato CSV e XML com informações acerca de transações bancárias.
-
 > Após ler, validar e salvar as transações em banco de dados, é possível identificar as transações consideradas suspeitas, caso o montante mensal ultrapasse determinados limites.
 
 

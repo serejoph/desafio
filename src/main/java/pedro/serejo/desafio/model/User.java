@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pedro.serejo.desafio.controller.dto.UserFormDto;
 
 @Entity
+@Table(name = "usuario")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;

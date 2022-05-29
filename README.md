@@ -1,6 +1,13 @@
-# Challenge Back-End Alura
+# Challenge Back-End
 
-Projeto criado durante o terceiro desafio de back-end da Alura.
+> Projeto criado durante o terceiro desafio de back-end da Alura.
+
+
+##Tecnologias utilizadas
+
+> Spring Boot
+> Thymeleaf
+> 
 
 Consiste em um sistema que lê recebe o upload de arquivos em formato CSV e XML com informações acerca de transações bancárias, tais como contas de origem, destino e valor da transação.
 

@@ -29,7 +29,7 @@ Novos usuários podem ser cadastrados e recebem por e-mail uma senha numéria al
 
 O sistema pode ser acessado a partir do seguinte endereço: https://desafio-backend-phsn.herokuapp.com, utilizando os seguintes dados de acesso:
 
-Usuário: 'admin@email.com.br' 
+Usuário: `admin@email.com.br` 
 
 Senha: 123999
 

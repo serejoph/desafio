@@ -31,7 +31,7 @@ O sistema pode ser acessado a partir do seguinte endereço: https://desafio-back
 
 Usuário: `admin@email.com.br` 
 
-Senha: 123999
+Senha: `123999`
 
 Arquivos de teste podem ser baixados nos seguintes links:
 

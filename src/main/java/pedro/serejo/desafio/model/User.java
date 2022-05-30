@@ -35,6 +35,7 @@ public class User implements UserDetails {
 	public User(UserFormDto userForm) {
 		this.name = userForm.getName();
 		this.email = userForm.getEmail();
+		this.password = userForm.getPassword();
 		this.enabled = true;
 
 	}

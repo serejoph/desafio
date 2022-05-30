@@ -15,6 +15,8 @@ public class UserFormDto {
 	@Email
 	@NotBlank(message = "Insira o e-mail do usuário")
 	private String email;
+	@Size(min = 6, message ="A senha deve conter no mínimo 6 caracteres")
+	private String password;
 	public String getName() {
 		return name;
 	}
@@ -28,6 +30,14 @@ public class UserFormDto {
 		this.email = email;
 	}
 	
+	
+	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public UserFormDto() {
 		
 	}

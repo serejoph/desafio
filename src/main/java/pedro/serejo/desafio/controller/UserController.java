@@ -1,7 +1,6 @@
 package pedro.serejo.desafio.controller;
 
 import java.util.Optional;
-import java.util.Random;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -58,15 +57,16 @@ public class UserController {
 		if (userOptional.isPresent()) {
 			user = userOptional.get();
 			user.setName(userForm.getName());
+			user.setPassword(userForm.getPassword());
 			user.setEnabled(true);
 		} else user = new User(userForm);
 		
-		Random r = new Random();
-		String rawPassword = String.valueOf(r.nextInt(100_000, 999_999));
-		user.setPassword(rawPassword);
+//		Random r = new Random();
+//		String rawPassword = String.valueOf(r.nextInt(100_000, 999_999));
+//		user.setPassword(rawPassword);
 		userRepository.save(user);
 		
-		new Thread(() -> mailService.sendPassword(user, rawPassword)).start();
+//		new Thread(() -> mailService.sendPassword(user, rawPassword)).start();
 
 		return "redirect:/user";
 

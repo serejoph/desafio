@@ -20,11 +20,6 @@ São ignorados:
 3. Transações cuja data não coincida com a data da primeira transação listada no respectivo arquivo;
 4. Transações de datas importadas anteriormente;
 
-## Segurança
-
-A camada de segurança foi implementada por meio do Spring Security.
-Novos usuários podem ser cadastrados e recebem por e-mail uma senha numéria aleatória com 6 dígitos.
-
 ## Como testar
 
 O sistema pode ser acessado a partir do seguinte endereço: https://desafio-backend-phsn.herokuapp.com, utilizando os seguintes dados de acesso:
